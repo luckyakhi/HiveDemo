@@ -1,0 +1,42 @@
+[
+	{
+		"key": "country",
+		"value": "in",
+		"child": [
+			{
+				"key": "state",
+				"value": "mh",
+				"child": [
+					{
+						"key": "city",
+						"value": "mum"
+					},
+					{
+						"key": "city",
+						"value": "pune"
+					}
+				]
+			}
+		]
+	},
+	{
+		"key": "country",
+		"value": "us",
+		"child": [
+			{
+				"key": "state",
+				"value": "ca",
+				"child": [
+					{
+						"key": "city",
+						"value": "la"
+					},
+					{
+						"key": "city",
+						"value": "vegas"
+					}
+				]
+			}
+		]
+	}
+]
