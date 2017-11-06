@@ -1,11 +1,11 @@
 package com.luckyakhi.hivedemo.svc;
 
+import static java.util.stream.Collectors.*;
+import static org.apache.commons.collections.CollectionUtils.*;
+import static org.apache.commons.lang.StringUtils.*;
+
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +30,29 @@ public class HivePartitionExtractor implements PartitionExtractor{
 	}
 
 	private Set<PartitionInfo> getPartitionInfo(Set<String> partitions) {
-		if(CollectionUtils.isEmpty(partitions)) return null;
-		Map<Object, Set<String>> partitionMap=partitions.stream().collect(Collectors.groupingBy(partition->
-		partition.substring(0,partition.indexOf(PARENT_CHILD_SEPARATOR)),
-		Collectors.mapping(value->(String)(value.substring(value.indexOf(PARENT_CHILD_SEPARATOR)+1,
-				value.length())), Collectors.toSet())));
-		Set<PartitionInfo> partitionSet=partitionMap.keySet().stream().map(key -> new PartitionInfo(
+		if(isEmpty(partitions) || isSetContainingNull(partitions)) return null;
+		Map<Object, Set<String>> partitionMap=partitions.stream().collect(groupingBy(
+				partition->partition.indexOf("/")==-1?partition:partition.substring(0,partition.indexOf(PARENT_CHILD_SEPARATOR)),
+		mapping(value->value.indexOf("/")==-1?null:(String)(value.substring(value.indexOf(PARENT_CHILD_SEPARATOR)+1,
+				value.length())), toSet())));
+		Set<PartitionInfo> partitionSet=partitionMap.keySet().stream().map(key -> 
+		((String)key).indexOf(KEY_VALUE_SEPARATOR)==-1?null: new PartitionInfo(
 				((String)key).split(KEY_VALUE_SEPARATOR)[0],((String)key).split(KEY_VALUE_SEPARATOR)[1]))
-				.collect(Collectors.toSet());
+				.collect(toSet());
 		for (PartitionInfo partitionInfo : partitionSet) {
-			partitionInfo.setChildren(getPartitionInfo(partitionMap.get(partitionInfo.getKey()
-					+KEY_VALUE_SEPARATOR+partitionInfo.getValue())));
+			Set<String> values = partitionMap.get(partitionInfo.getKey()
+					+KEY_VALUE_SEPARATOR+partitionInfo.getValue());
+			if(isNotEmpty(values) && !isSetContainingNull(values)){
+				Set<PartitionInfo> children = getPartitionInfo(values);
+				partitionInfo.setChildren(children);
+			
+			}
 		}
 		return partitionSet;
+	}
+
+	private boolean isSetContainingNull(Set<String> values) {
+		return values.size()==1 && values.contains(null);
 	}
 	
 	

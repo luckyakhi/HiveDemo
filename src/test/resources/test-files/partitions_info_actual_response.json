@@ -1,0 +1,40 @@
+[
+	{
+		"key": "country",
+		"value": "in",
+		"children": [
+			{
+				"key": "state",
+				"value": "ka",
+				"children": [
+					{
+						"key": "city",
+						"value": "mysore",
+						"children": null
+					},
+					{
+						"key": "city",
+						"value": "blr",
+						"children": null
+					}
+				]
+			},
+			{
+				"key": "state",
+				"value": "mh",
+				"children": [
+					{
+						"key": "city",
+						"value": "pune",
+						"children": null
+					},
+					{
+						"key": "city",
+						"value": "mum",
+						"children": null
+					}
+				]
+			}
+		]
+	}
+]
