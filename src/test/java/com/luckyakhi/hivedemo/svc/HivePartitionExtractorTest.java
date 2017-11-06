@@ -41,7 +41,8 @@ public class HivePartitionExtractorTest {
 		when(hiveDAO.getPartitions("ecoshuttle", "bookings")).thenReturn(
 				new HashSet<>(Arrays.asList("country=in/state=ka/city=blr",
 						"country=in/state=ka/city=mysore",
-						"country=in/state=mh/city=mum","country=in/state=mh/city=pune")));
+						"country=in/state=mh/city=mum","country=in/state=mh/city=pune"
+						,"country=us/state=ca/city=la","country=us/state=dc")));
 		Set<PartitionInfo> partitions=hivePartitionExtractor.extract("ecoshuttle", "bookings");
 		ObjectMapper om = new ObjectMapper();
 		System.out.println(om.writeValueAsString(partitions));

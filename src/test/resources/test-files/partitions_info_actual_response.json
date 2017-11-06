@@ -1,6 +1,28 @@
 [
 	{
 		"key": "country",
+		"value": "us",
+		"children": [
+			{
+				"key": "state",
+				"value": "ca",
+				"children": [
+					{
+						"key": "city",
+						"value": "la",
+						"children": null
+					}
+				]
+			},
+			{
+				"key": "state",
+				"value": "dc",
+				"children": null
+			}
+		]
+	},
+	{
+		"key": "country",
 		"value": "in",
 		"children": [
 			{
@@ -9,12 +31,12 @@
 				"children": [
 					{
 						"key": "city",
-						"value": "mysore",
+						"value": "blr",
 						"children": null
 					},
 					{
 						"key": "city",
-						"value": "blr",
+						"value": "mysore",
 						"children": null
 					}
 				]
